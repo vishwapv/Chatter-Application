@@ -39,7 +39,6 @@ const Login = () => {
       if (response.status === 201) {
         console.log("response.status:", response.status);
         localStorage.setItem("token", token);
-        alert("User logged in successfully");
 
         history.push("/chat"); // Navigate to the chat page
       }

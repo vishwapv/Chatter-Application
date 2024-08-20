@@ -135,6 +135,20 @@ exports.loginUser = (req, res) => {
     });
 };
 
+exports.userList = async (req, res) => {
+  const keyword = req.query.search
+    ? {
+        $or: [
+          { name: { $regex: req.query.search, $options: "i" } },
+          { email: { $regex: req.query.search, $options: "i" } },
+        ],
+      }
+    : {};
+  const user = await User.find(keyword).find({ _id: { $ne: req.user._id } });
+  res.send(user);
+  console.log("keyword", keyword);
+};
+
 // .catch((err) => {
 //   return res.status(500).json({
 //     message: "User did not login successfully",
