@@ -2,6 +2,7 @@ const express = require("express");
 const dotenv = require("dotenv");
 const connectDB = require("./config/db");
 const userRouter = require("./routes/userRoutes/userRoutes");
+const chatRouter = require("./routes/chatRouter/chatRouter");
 
 const app = express();
 
@@ -15,6 +16,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/user", userRouter);
+app.use("/api/chats", chatRouter);
 
 const PORT = process.env.PORT || 5001;
 
