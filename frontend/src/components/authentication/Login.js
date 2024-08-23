@@ -28,19 +28,19 @@ const Login = () => {
     }
 
     try {
-      const response = await axios.post("/api/user/login", state);
-      const token =
-        response &&
-        response.data &&
-        response.data.data &&
-        response.data.data.token;
-      console.log("token :", token);
-      console.log("response :", response);
-      if (response.status === 201) {
-        console.log("response.status:", response.status);
-        localStorage.setItem("token", token);
+      const data = await axios.post("/api/user/login", state);
+      // const token =
+      //   response &&
+      //   response.data &&
+      //   response.data.data &&
+      //   response.data.data.token;
+      // console.log("token :", token);
+      // console.log("response :", response);
+      if (data.status === 201) {
+        console.log("response.status:", data.status);
+        localStorage.setItem("userInfo", JSON.stringify(data));
 
-        history.push("/chat"); // Navigate to the chat page
+        history.push("/chats"); // Navigate to the chat page
       }
     } catch (error) {
       console.log("There was an error logging in", error);
@@ -50,14 +50,14 @@ const Login = () => {
 
   return (
     <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        gap: "2rem",
-        width: "20rem",
-        justifyContent: "center",
-        alignItems: "center",
-      }}
+    // style={{
+    //   display: "flex",
+    //   flexDirection: "column",
+    //   gap: "2rem",
+    //   width: "20rem",
+    //   justifyContent: "center",
+    //   alignItems: "center",
+    // }}
     >
       <form noValidate autoComplete="off" onSubmit={handleSubmit}>
         <div

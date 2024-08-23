@@ -7,6 +7,16 @@ import { makeStyles, withStyles } from "@material-ui/core/styles";
 import React from "react";
 
 function Home() {
+  const history = useHistory();
+  // write the useEffect functionality to check the use is loged in or not
+  useEffect(() => {
+    const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+
+    if (userInfo) {
+      history.push("/chats");
+    }
+  });
+
   const [activeComponent, setActiveComponent] = useState("login");
 
   const handleLoginClick = () => {
@@ -16,7 +26,16 @@ function Home() {
     setActiveComponent("signup");
   };
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: "2rem" }}>
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        height: "100vh",
+        gap: "2rem",
+        flexDirection: "column",
+      }}
+    >
       <Card
         style={{
           width: "40rem",
