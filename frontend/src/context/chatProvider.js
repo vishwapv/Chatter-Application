@@ -7,6 +7,10 @@ const ChatContext = createContext();
 const ChatProvider = ({ children }) => {
   // we are use the useState hook for the state manegment
   const [user, setUser] = useState();
+  const [selectedChat, setSelectedChat] = useState();
+  const [notification, setNotification] = useState([]);
+  const [chats, setChats] = useState([]);
+
   const history = useHistory();
   //why we are using the useEffect ? Because we have to fetch the data from the localStorage
   useEffect(() => {
@@ -24,7 +28,18 @@ const ChatProvider = ({ children }) => {
   }, [history]);
 
   return (
-    <ChatContext.Provider value={{ user, setUser }}>
+    <ChatContext.Provider
+      value={{
+        selectedChat,
+        setSelectedChat,
+        user,
+        setUser,
+        notification,
+        setNotification,
+        chats,
+        setChats,
+      }}
+    >
       {children}
     </ChatContext.Provider>
   );

@@ -94,75 +94,24 @@ const Chat = () => {
   // Why we are destructuring this
   // We are destructuring this because we are using this in the context from the context file we will get all the data which is required in the chat page???
   const { user } = ChatState();
+  const [fetchAgain, setFetchAgain] = useState(false);
 
   return (
     // Side drawer to show all users ("this is the header section")
     // If user is there, show all the users in the list
     // If users are there, then show the chat box
     <div style={{ width: "100%", gap: "2rem" }}>
+      {user && <SideDrower />}
+      {/* Write the condition that if the user is there then only show the user list, create all the chat of the user ("user list") */}
       <Card
         style={{
           display: "flex",
           justifyContent: "space-between",
-          width: "99%",
-          height: "10vh",
-          padding: "10px",
-          margin: "auto",
+          width: "100%",
+          height: "91.5%",
         }}
       >
-        <div>
-          <div className={classes.search}>
-            <div className={classes.searchIcon}>
-              <SearchIcon />
-            </div>
-            <InputBase
-              placeholder="Search…User"
-              classes={{
-                root: classes.inputRoot,
-                input: classes.inputInput,
-              }}
-              inputProps={{ "aria-label": "search" }}
-            />
-          </div>
-        </div>
-        <h1>Chatter</h1>
-        <div style={{ display: "flex", gap: "1rem" }}>
-          <NotificationsActiveIcon />
-          <div>
-            <Button
-              aria-controls="simple-menu"
-              aria-haspopup="true"
-              onClick={handleClick}
-            >
-              <Avatar></Avatar>
-              {user && user.data && user.data.data && user.data.data.name}
-            </Button>
-            <Menu
-              id="simple-menu"
-              anchorEl={anchorEl}
-              keepMounted
-              open={Boolean(anchorEl)}
-              onClose={handleClose}
-            >
-              <MenuItem onClick={handleProfile}>Profile</MenuItem>
-              <MenuItem onClick={handleClose}>Logout</MenuItem>
-            </Menu>
-          </div>
-        </div>
-      </Card>
-
-      <Card
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          width: "99%",
-          height: "90vh",
-          padding: "10px",
-          margin: "auto",
-        }}
-      >
-        {/* Write the condition that if the user is there then only show the user list, create all the chat of the user ("user list") */}
-        {user && <MyChat />}
+        {user && <MyChat fetchAgain={fetchAgain} />}
         {/* Write the condition that if the user is there then only create the chat box to chat with others */}
         {user && <ChatBox />}
       </Card>
