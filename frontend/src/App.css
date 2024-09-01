@@ -1,8 +1,9 @@
-/* .App{
+.App{
     min-height: 100vh;
     justify-content: center;
     align-items: center;
     display: flex;
-    flex-direction: column;
+    background-color: bisque;
+    /* flex-direction: column; */
     
-} */
+}
