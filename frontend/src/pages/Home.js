@@ -1,9 +1,18 @@
-import { React, useState } from "react";
+import { React, useEffect, useState } from "react";
 import Login from "../components/Login";
 import Registration from "../components/Registration";
 import Card from "@mui/material/Card";
+import { useHistory } from "react-router-dom";
 
 const Home = () => {
+  const history = useHistory();
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem("userInfo"));
+
+    if (user) {
+      history.push("/chats");
+    }
+  }, [history]);
   const [isShow, setIsShow] = useState(false);
   return (
     <Card
