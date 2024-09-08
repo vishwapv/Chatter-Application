@@ -9,3 +9,14 @@ export const getSender = (loggedUser, users) => {
 
   return user_id === logedUser_id ? users[1].name : users[0].name;
 };
+export const getSenderFull = (loggedUser, users) => {
+  console.log("users in getSenderfull :", users);
+  console.log("loggedUser in getSenderfull :", loggedUser);
+  const logedUser_id = loggedUser && loggedUser.data && loggedUser.data._id;
+  const user_id = users && users[0] && users[0]._id;
+  console.log("users_id in getSenderfull :", user_id);
+
+  console.log("logedUser_id in getSenderfull :", logedUser_id);
+
+  return user_id === logedUser_id ? users[1] : users[0];
+};

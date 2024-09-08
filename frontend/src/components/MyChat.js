@@ -14,7 +14,7 @@ import { getSender } from "../chatLogic/ChatLogic";
 import Button from "@mui/material/Button";
 import GroupChatModal from "./miscellaneous/GroupChatModal";
 
-const MyChat = () => {
+const MyChat = ({ fetchAgain }) => {
   const [loggedUser, setLoggedUser] = useState();
 
   const { user, setUser, chats, setChats, selectedChat, setSelectedChat } =
@@ -47,7 +47,7 @@ const MyChat = () => {
   useEffect(() => {
     setLoggedUser(JSON.parse(localStorage.getItem("userInfo")));
     fetchChats();
-  }, []);
+  }, [fetchAgain]);
   return (
     <Card
       style={{
@@ -81,7 +81,7 @@ const MyChat = () => {
             <List key={chat._id}>
               <ListItem disablePadding>
                 <ListItemButton>
-                  <ListItemIcon>
+                  <ListItemIcon onClick={() => setSelectedChat(chat)}>
                     <Avatar />
                     {!chat.isGroupChat
                       ? (() => {

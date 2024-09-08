@@ -20,10 +20,12 @@ const style = {
 };
 
 const ProfileModel = ({ user, children }) => {
-  console.log("user in profile :", user && user.data && user.data.name);
-  console.log("user in profile :", user && user.data && user.data.email);
-  const userModal = user && user.data && user.data.name;
-  const emailModal = user && user.data && user.data.email;
+  console.log("user in profile all list:", user);
+
+  console.log("user in profile :", user && user.name);
+  console.log("user in profile :", user && user.email);
+  const userModal = user && user.name;
+  const emailModal = user && user.email;
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -33,7 +35,7 @@ const ProfileModel = ({ user, children }) => {
       {children ? (
         <Button onClick={handleOpen}>Open modal</Button>
       ) : (
-        <VisibilityIcon />
+        <VisibilityIcon onClick={handleOpen} />
       )}
       <Modal
         open={open}

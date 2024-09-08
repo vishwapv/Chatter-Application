@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { ChatState } from "../context/Context";
 import { Card } from "@mui/material";
 import SideDrawer from "../components/miscellaneous/SideDrawer";
@@ -7,6 +7,7 @@ import ChatBox from "../components/ChatBox";
 
 const Chat = () => {
   const user = ChatState();
+  const [fetchAgain, setFetchAgain] = useState(false);
   console.log("user :", user);
   return (
     <div style={{ width: "100%", height: "100vh" }}>
@@ -27,8 +28,10 @@ const Chat = () => {
           justifyContent: "space-between",
         }}
       >
-        {user && <MyChats />}
-        {user && <ChatBox />}
+        {user && <MyChats fetchAgain={fetchAgain} />}
+        {user && (
+          <ChatBox fetchAgain={fetchAgain} setFetchAgain={setFetchAgain} />
+        )}
       </Card>
     </div>
   );

@@ -109,6 +109,9 @@ const GroupChatModal = ({ children }) => {
       setSelectedUsers([]);
       setSeverity("success");
       setOpenTost(true);
+      setMessage("Group chat created successfully");
+
+      setChats([data, ...chats]);
     } catch (error) {
       console.error(error);
       setSeverity("error");
