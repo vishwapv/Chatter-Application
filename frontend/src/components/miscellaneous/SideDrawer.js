@@ -19,6 +19,7 @@ import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
+import axios from "axios";
 
 import TextField from "@mui/material/TextField";
 
@@ -29,12 +30,21 @@ import ProfileModel from "./ProfileModel";
 import { ChatState } from "../../context/Context";
 
 const SideDrawer = () => {
+  const { user, setUser, chats, setChats, selectedChat, setSelectedChat } =
+    ChatState();
+  const toke = user && user.data && user.data.token;
+  console.log("token", toke);
+
+  console.log("user sidedrawer", user);
+
   const [opens, setOpens] = React.useState(false);
   const [openTost, setOpenTost] = React.useState(false);
 
   const [search, setSearch] = useState("");
 
   const [searchResult, setSearchResult] = useState([]);
+  console.log("searchResult :", searchResult);
+
   const [loading, setLoading] = useState(false);
   const [loadingChats, setLoadingChats] = useState(false);
 
@@ -56,6 +66,29 @@ const SideDrawer = () => {
     setOpens(newOpen);
   };
 
+  const accessChat = async (userId) => {
+    console.log("userId clicked on chat", userId);
+
+    try {
+      setLoadingChats(true);
+      const config = {
+        headers: {
+          "Content-type": "application/json",
+          Authorization: `Bearer ${toke}`,
+        },
+      };
+      const { data } = await axios.post(`/api/chats`, { userId }, config);
+      console.log("data", data);
+      if (!chats.find((c) => c._id === data._id)) setChats([data, ...chats]);
+      setSelectedChat(data);
+      setLoadingChats(false);
+      handleClose();
+    } catch (error) {
+      console.log(error);
+      setLoadingChats(false);
+    }
+  };
+
   const DrawerList = (
     <Box sx={{ width: 250 }} role="presentation">
       <div style={{ display: "flex", justifyContent: "space-between" }}>
@@ -73,13 +106,17 @@ const SideDrawer = () => {
       </div>
 
       <List>
-        {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
-          <ListItem key={text} disablePadding>
-            <ListItemButton>
+        {searchResult.map((text) => (
+          <ListItem key={text._id} disablePadding>
+            <ListItemButton
+              onClick={() => {
+                accessChat(text._id);
+              }}
+            >
               <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                <Avatar />
               </ListItemIcon>
-              <ListItemText primary={text} />
+              <ListItemText primary={text.name} />
             </ListItemButton>
           </ListItem>
         ))}
@@ -96,9 +133,20 @@ const SideDrawer = () => {
       setMessage("Please enter the text");
       return;
     }
-  };
 
-  const { user } = ChatState();
+    try {
+      setLoading(true);
+      const config = {
+        headers: {
+          Authorization: `Bearer ${user && user.data && user.data.token}`,
+        },
+      };
+
+      const { data } = await axios.get(`/api/user?search=${search}`, config);
+      setLoading(false);
+      setSearchResult(data);
+    } catch (error) {}
+  };
 
   const history = useHistory();
 

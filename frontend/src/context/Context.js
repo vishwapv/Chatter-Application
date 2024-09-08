@@ -5,6 +5,8 @@ const ChatContext = createContext();
 
 const ChatProvider = ({ children }) => {
   const [user, setUser] = useState();
+  const [chats, setChats] = useState([]);
+  const [selectedChat, setSelectedChat] = useState();
 
   const history = useHistory();
 
@@ -13,12 +15,15 @@ const ChatProvider = ({ children }) => {
     console.log("userInfo :", userInfo);
     setUser(userInfo);
 
-    if (!userInfo) {
-      history.push("/");
-    }
+    // if (!userInfo) {
+    //   history.push("/");
+    // }
   }, [history]);
+
   return (
-    <ChatContext.Provider value={{ user, setUser }}>
+    <ChatContext.Provider
+      value={{ user, setUser, chats, setChats, selectedChat, setSelectedChat }}
+    >
       {children}
     </ChatContext.Provider>
   );
