@@ -7,6 +7,7 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import TextField from "@mui/material/TextField";
+import axios from "axios";
 
 import { ChatState } from "../../context/Context";
 
@@ -74,6 +75,47 @@ const UpdateGroupChat = ({ fetchAgain, setFetchAgain }) => {
 
   const handleDelete = async (user) => {};
 
+  const handleRename = async () => {
+    if (!groupChatName) {
+      setSeverity("warning");
+      setSnakbarMessage("Please enter the text");
+      return;
+    }
+    try {
+      setRenameLoading(true);
+      const config = {
+        headers: {
+          Authorization: `Bearer ${user && user.data && user.data.token}`,
+        },
+      };
+
+      const { data } = await axios.put(
+        `/api/chats/rename`,
+        {
+          chatI: selectedChat._id,
+          chatName: groupChatName,
+        },
+        config
+      );
+
+      setSelectedChat(data);
+      setFetchAgain(!fetchAgain);
+      setRenameLoading(false);
+      setGroupChatName("");
+    } catch (error) {
+      handleClickSnackbar();
+      setRenameLoading(false);
+      setSeverity("error");
+      setSnakbarMessage("Failed to rename the group");
+    }
+  };
+
+  const handleRemove = async () => {};
+
+  const handleAddUser = async () => {};
+
+  const handleSearch = async () => {};
+
   return (
     <div>
       <VisibilityIcon onClick={handleOpen} />
@@ -126,8 +168,25 @@ const UpdateGroupChat = ({ fetchAgain, setFetchAgain }) => {
                 id="outlined-basic"
                 label="Group Chat Name"
                 variant="outlined"
+                onChange={(e) => setGroupChatName(e.target.value)}
               />
-              <Button variant="contained">Update</Button>
+              <Button variant="contained" onClick={(e) => handleRename(e)}>
+                Update
+              </Button>
+
+              <TextField
+                id="outlined-basic"
+                label="Add User to Group"
+                variant="outlined"
+                onChange={(e) => handleSearch(e.target.value)}
+              />
+              <Button
+                variant="contained"
+                color="error"
+                onClick={(e) => handleRemove(e)}
+              >
+                leave group
+              </Button>
             </div>
           </Box>
         </Fade>
